@@ -22,6 +22,8 @@
        (filter #(> (second %) (first %)))
        (count)))
 
+(day-one day-one-input)
+
 (defn day-one-part-two
   [input]
   (->> (partition 3 1 input)
@@ -31,9 +33,7 @@
 (def day-one-input
   (read-input "one.txt" #(Integer/parseInt %)))
 
-(day-one day-one-input) ;; => 1581
-(day-one-part-two day-one-input) ;; => 1618
-
+(day-one-part-two day-one-input)
 
 ;; day two
 
@@ -54,4 +54,4 @@
   (read-input "two.txt" #(let [split (clojure.string/split % #" ")]
                            [(keyword (first split)) (Integer/parseInt (second split))])))
 
-(day-two day-two-input) ;; => 1499229
+(day-two day-two-input)
