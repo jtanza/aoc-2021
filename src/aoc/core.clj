@@ -1,5 +1,6 @@
 (ns aoc.core
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as string]))
 
 (defn -main
   "Saves christmas"
@@ -12,7 +13,7 @@
   ([file]
    (read-input file #(map identity %)))
   ([file f]
-   (map f (clojure.string/split-lines (slurp (io/resource file))))))
+   (map f (string/split-lines (slurp (io/resource file))))))
 
 ;; day one
 
@@ -22,6 +23,9 @@
        (filter #(> (second %) (first %)))
        (count)))
 
+(def day-one-input
+  (read-input "one.txt" #(Integer/parseInt %)))
+
 (day-one day-one-input)
 
 (defn day-one-part-two
@@ -29,9 +33,6 @@
   (->> (partition 3 1 input)
        (map #(reduce + %))
        (day-one)))
-
-(def day-one-input
-  (read-input "one.txt" #(Integer/parseInt %)))
 
 (day-one-part-two day-one-input)
 
@@ -43,15 +44,22 @@
    :up  #(vector (- (first %1) %2) (second %1))})
 
 (defn day-two
-  [input]
-  (reduce *
-          (reduce
-           (fn [coord command]
+  [commands seed input]
+   (reduce (fn [coord command]
              (((first command) commands) coord (second command)))
-           '(0 0) input)))
+           seed input))
 
 (def day-two-input
-  (read-input "two.txt" #(let [split (clojure.string/split % #" ")]
+  (read-input "two.txt" #(let [split (string/split % #" ")]
                            [(keyword (first split)) (Integer/parseInt (second split))])))
 
-(day-two day-two-input)
+(reduce * (day-two commands [0 0] day-two-input))
+
+(def commands-part-two
+  {:forward #(vector (first %1) (+ (* %2 (first %1)) (second %1)) (+ %2 (nth %1 2)))
+   :down #(vector (+ %2 (first %1)) (second %1) (nth %1 2))
+   :up  #(vector (- (first %1) %2) (second %1) (nth %1 2))})
+
+(->> (day-two commands-part-two [0 0 0] day-two-input)
+     (rest)
+     (reduce *))
