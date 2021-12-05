@@ -1,6 +1,7 @@
 (ns aoc.core
   (:require [clojure.java.io :as io]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [clojure.string :as str]))
 
 (defn -main
   "Saves christmas"
@@ -63,3 +64,23 @@
 (->> (day-two commands-part-two [0 0 0] day-two-input)
      (rest)
      (reduce *))
+
+
+;; day three
+
+(defn most-freq-bits
+  "Finds the most frequent bit in a collection of bits at each 0...nth position
+  resulting in an n length bit sequence."
+  [bits]
+  (let [partitioned-bits (partition (count bits) (apply interleave bits))]
+    (map (fn [partitioned] (first (apply max-key val (frequencies partitioned))))
+         partitioned-bits)))
+
+(defn day-three
+  [input]
+  (let [bits (most-freq-bits input)
+        gamma (Integer/parseInt (string/join bits) 2)
+        epsilon (bit-and-not 0xFFF gamma)] ;; complement and keep 12 least significant bits
+    (* gamma epsilon)))
+
+(day-three (read-input "three.txt"))
