@@ -69,7 +69,7 @@
 ;; day three
 
 (defn most-freq-bits
-  "Finds the most frequent bit in a collection of bits at each 0...nth position
+  "Finds the most frequent bit in a collection of bits at each 0...nth position,
   resulting in an n length bit sequence."
   [bits]
   (let [partitioned-bits (partition (count bits) (apply interleave bits))]
@@ -84,3 +84,4 @@
     (* gamma epsilon)))
 
 (day-three (read-input "three.txt"))
+
