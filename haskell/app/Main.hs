@@ -10,5 +10,3 @@ dayOne :: Num a => [Char] -> a
 dayOne input = foldl (\x y -> if (snd y) > (fst y) then x + 1 else x) 0 (zip xs (tail xs))
   where xs = map (read :: String->Int) (lines input)
 
-
-
