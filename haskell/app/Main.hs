@@ -13,7 +13,6 @@ formatInput f input = map f (lines input)
 -- Day One
 ---------------
 -- |'dayOne' counts pairwise elements in our 'input' that are strictly increasing in value
-
 dayOne :: (Ord a, Num b) => [a] -> b
 dayOne xs =
   foldl
